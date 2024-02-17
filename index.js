@@ -26,10 +26,18 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:d", (req, res)=> {
   let {d} = req.params;
+
   if(/\d{5,}/.test(d)) {
-    res.json({unix: d, "utc": new Date(parseInt(d)).toUTCString()});
+    res.json({unix: parseInt(d), "utc": new Date(parseInt(d)).toUTCString()});
+  }
+  if(new Date(d).toString() == "Invalid Date"){
+    res.json({error: "Invalid Date"});
   }
   res.json({unix: new Date(d).valueOf(), "utc": new Date(d).toUTCString()});
+});
+
+app.get("/api", (req, res)=> {
+    res.json({unix: new Date().valueOf(), "utc": new Date().toUTCString()})
 })
 
 
